@@ -3,8 +3,6 @@ package com.nicken.fcbbackend.player;
 import java.util.HashMap;
 import java.util.Optional;
 
-import com.nicken.fcbbackend.player.Player;
-
 import org.springframework.stereotype.Repository;
 
 @Repository
