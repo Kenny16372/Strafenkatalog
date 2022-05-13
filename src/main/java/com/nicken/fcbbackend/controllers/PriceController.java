@@ -11,7 +11,6 @@ import com.nicken.fcbbackend.price.PriceRestModel;
 import com.nicken.fcbbackend.services.PriceService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,14 +25,13 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
-@Order(2)
 @RequestMapping(path = "/api/price")
 public class PriceController {
     @Autowired
     private PriceService priceService;
 
     @GetMapping("/{priceId}")
-    public ResponseEntity<PriceRestModel> getpriceById(@PathVariable long priceId) throws PriceNotFoundException {
+    public ResponseEntity<PriceRestModel> getPriceById(@PathVariable long priceId) throws PriceNotFoundException {
         var price = this.priceService.find(priceId).orElseThrow(PriceNotFoundException::new);
 
         var priceRestModel = new PriceRestModel();
@@ -45,7 +43,7 @@ public class PriceController {
     }
 
     @GetMapping("/prices")
-    public ResponseEntity<List<PriceRestModel>> getprices() {
+    public ResponseEntity<List<PriceRestModel>> getPrices() {
         var prices = this.priceService.list();
 
         var priceRestModels = new ArrayList<PriceRestModel>();
@@ -62,7 +60,7 @@ public class PriceController {
     }
 
     @PostMapping
-    public ResponseEntity<PriceRestModel> createprice(@RequestBody PriceRestModel priceRestModel)
+    public ResponseEntity<PriceRestModel> createPrice(@RequestBody PriceRestModel priceRestModel)
             throws URISyntaxException {
         var price = new Price();
 
@@ -82,7 +80,7 @@ public class PriceController {
     }
 
     @PutMapping("/{priceId}")
-    public ResponseEntity<Void> updateprice(@PathVariable long priceId,
+    public ResponseEntity<Void> updatePrice(@PathVariable long priceId,
             @RequestBody PriceRestModel priceRestModel) {
         var price = this.priceService.find(priceId).orElseThrow(PriceNotFoundException::new);
 
@@ -98,7 +96,7 @@ public class PriceController {
     }
 
     @DeleteMapping("/{priceId}")
-    public ResponseEntity<Void> deleteprice(@PathVariable long priceId) {
+    public ResponseEntity<Void> deletePrice(@PathVariable long priceId) {
         var price = this.priceService.find(priceId).orElseThrow(PriceNotFoundException::new);
 
         this.priceService.delete(price);

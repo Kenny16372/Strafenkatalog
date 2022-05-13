@@ -24,5 +24,5 @@ public class Price {
     private String name;
     // amount in cents
     @Column(name = "amount", nullable = false)
-    private int amount;
+    private Integer amount;
 }

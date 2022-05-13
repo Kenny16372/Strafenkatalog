@@ -11,7 +11,6 @@ import com.nicken.fcbbackend.player.PlayerRestModel;
 import com.nicken.fcbbackend.services.PlayerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +25,6 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
-@Order(2)
 @RequestMapping(path = "/api/player")
 public class PlayerController {
     @Autowired
