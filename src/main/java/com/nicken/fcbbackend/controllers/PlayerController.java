@@ -7,9 +7,10 @@ import java.util.List;
 
 import com.nicken.fcbbackend.player.Player;
 import com.nicken.fcbbackend.player.PlayerNotFoundException;
-import com.nicken.fcbbackend.player.PlayerRepository;
 import com.nicken.fcbbackend.player.PlayerRestModel;
+import com.nicken.fcbbackend.services.PlayerService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,11 +29,12 @@ import lombok.AllArgsConstructor;
 @Order(2)
 @RequestMapping(path = "/api/player")
 public class PlayerController {
-    private PlayerRepository playerRepository;
+    @Autowired
+    private PlayerService playerService;
 
     @GetMapping("/{playerId}")
     public ResponseEntity<PlayerRestModel> getPlayerById(@PathVariable long playerId) throws PlayerNotFoundException {
-        var player = this.playerRepository.findById(playerId).orElseThrow(PlayerNotFoundException::new);
+        var player = this.playerService.find(playerId).orElseThrow(PlayerNotFoundException::new);
 
         var playerRestModel = new PlayerRestModel();
         playerRestModel.setId(player.getId());
@@ -43,7 +45,7 @@ public class PlayerController {
 
     @GetMapping("/players")
     public ResponseEntity<List<PlayerRestModel>> getPlayers() {
-        var players = this.playerRepository.findAll();
+        var players = this.playerService.list();
 
         var playerRestModels = new ArrayList<PlayerRestModel>();
 
@@ -68,7 +70,7 @@ public class PlayerController {
         }
         player.setName(name);
 
-        this.playerRepository.save(player);
+        this.playerService.save(player);
 
         playerRestModel.setId(player.getId());
 
@@ -78,7 +80,7 @@ public class PlayerController {
     @PutMapping("/{playerId}")
     public ResponseEntity<Void> updatePlayer(@PathVariable long playerId,
             @RequestBody PlayerRestModel playerRestModel) {
-        var player = this.playerRepository.findById(playerId).orElseThrow(PlayerNotFoundException::new);
+        var player = this.playerService.find(playerId).orElseThrow(PlayerNotFoundException::new);
 
         var name = playerRestModel.getName();
         if (name == null) {
@@ -86,16 +88,16 @@ public class PlayerController {
         }
         player.setName(name);
 
-        this.playerRepository.save(player);
+        this.playerService.save(player);
 
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{playerId}")
     public ResponseEntity<Void> deletePlayer(@PathVariable long playerId) {
-        var player = this.playerRepository.findById(playerId).orElseThrow(PlayerNotFoundException::new);
+        var player = this.playerService.find(playerId).orElseThrow(PlayerNotFoundException::new);
 
-        this.playerRepository.delete(player);
+        this.playerService.delete(player);
 
         return ResponseEntity.accepted().build();
     }
