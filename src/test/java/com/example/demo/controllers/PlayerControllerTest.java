@@ -31,74 +31,74 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @ExtendWith(MockitoExtension.class)
 public class PlayerControllerTest {
-        private MockMvc mvc;
+    private MockMvc mvc;
 
-        @Mock
-        private PlayerService playerService;
+    @Mock
+    private PlayerService playerService;
 
-        @InjectMocks
-        private PlayerController controller;
+    @InjectMocks
+    private PlayerController controller;
 
-        private JacksonTester<Player> jsonPlayer;
-        private JacksonTester<List<Player>> jsonPlayers;
+    private JacksonTester<Player> jsonPlayer;
+    private JacksonTester<List<Player>> jsonPlayers;
 
-        @BeforeEach
-        public void init() {
-                JacksonTester.initFields(this, new ObjectMapper());
+    @BeforeEach
+    public void init() {
+        JacksonTester.initFields(this, new ObjectMapper());
 
-                mvc = MockMvcBuilders.standaloneSetup(controller)
-                                .setControllerAdvice(PlayerExceptionHandler.class)
-                                .addFilters(new PlayerFilter())
-                                .build();
-        }
+        mvc = MockMvcBuilders.standaloneSetup(controller)
+                .setControllerAdvice(PlayerExceptionHandler.class)
+                .addFilters(new PlayerFilter())
+                .build();
+    }
 
-        @Test
-        public void canRetrieveByIdWhenExists() throws Exception {
-                final long id = 2;
+    @Test
+    public void canRetrieveByIdWhenExists() throws Exception {
+        final long id = 2;
 
-                given(playerService.find(id)).willReturn(Optional.of(new Player(id, "Kenny")));
+        given(playerService.find(id)).willReturn(Optional.of(new Player(id, "Kenny")));
 
-                MockHttpServletResponse response = mvc.perform(
-                                get("/api/player/" + id)
-                                                .accept(MediaType.APPLICATION_JSON))
-                                .andReturn().getResponse();
+        MockHttpServletResponse response = mvc.perform(
+                get("/api/player/" + id)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
 
-                assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-                assertThat(response.getContentAsString()).isEqualTo(
-                                jsonPlayer.write(new Player(id, "Kenny")).getJson());
-        }
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getContentAsString()).isEqualTo(
+                jsonPlayer.write(new Player(id, "Kenny")).getJson());
+    }
 
-        @Test
-        public void notFoundWhenRetrievingNonExistingPlayer() throws Exception {
-                final long id = 2;
+    @Test
+    public void notFoundWhenRetrievingNonExistingPlayer() throws Exception {
+        final long id = 2;
 
-                given(playerService.find(id)).willReturn(Optional.empty());
+        given(playerService.find(id)).willReturn(Optional.empty());
 
-                MockHttpServletResponse response = mvc.perform(
-                                get("/api/player/" + id)
-                                                .accept(MediaType.APPLICATION_JSON))
-                                .andReturn().getResponse();
+        MockHttpServletResponse response = mvc.perform(
+                get("/api/player/" + id)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
 
-                assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
-                assertThat(response.getContentAsString()).isEmpty();
-        }
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        assertThat(response.getContentAsString()).isEmpty();
+    }
 
-        @Test
-        public void returnsCorrectPlayerList() throws Exception {
-                var players = new ArrayList<Player>();
-                players.add(new Player(1l, "Kenny"));
-                players.add(new Player(2l, "Gumba"));
-                players.add(new Player(3l, "Michi"));
-                players.add(new Player(4l, "Luis"));
+    @Test
+    public void returnsCorrectPlayerList() throws Exception {
+        var players = new ArrayList<Player>();
+        players.add(new Player(1l, "Kenny"));
+        players.add(new Player(2l, "Gumba"));
+        players.add(new Player(3l, "Michi"));
+        players.add(new Player(4l, "Luis"));
 
-                given(playerService.list()).willReturn(players);
+        given(playerService.list()).willReturn(players);
 
-                MockHttpServletResponse response = mvc.perform(
-                                get("/api/player/players")
-                                                .accept(MediaType.APPLICATION_JSON))
-                                .andReturn().getResponse();
+        MockHttpServletResponse response = mvc.perform(
+                get("/api/player/players")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
 
-                assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-                assertThat(response.getContentAsString()).isEqualTo(jsonPlayers.write(players).getJson());
-        }
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getContentAsString()).isEqualTo(jsonPlayers.write(players).getJson());
+    }
 }
