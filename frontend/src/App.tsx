@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Layout from "./components/Layout/Layout";
 import GlobalState from "./contexts/GlobalState";
+import EditFineView from "./views/EditFineView";
 import FineListView from "./views/FineListView";
 import MainView from "./views/MainView";
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<MainView />} />
             <Route path="strafenkatalog" element={<FineListView />} />
+            <Route path="strafeBearbeiten/:id" element={<EditFineView />} />
             <Route path="*" element={<MainView />} />
           </Route>
         </Routes>

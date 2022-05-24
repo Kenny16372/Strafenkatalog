@@ -1,15 +1,12 @@
 import React from "react";
+import IFine from "../interfaces/Fine";
 
 export interface IGlobalState {
   players: {
     name: string;
     id: number;
   }[];
-  fines: {
-    name: string;
-    amount: number;
-    id: number;
-  }[];
+  fines: IFine[];
 }
 
 let initialState: IGlobalState = {
@@ -39,7 +36,7 @@ let initialState: IGlobalState = {
 
 const GlobalState = React.createContext([
   initialState,
-  (a: IGlobalState) => {},
+  (a: IGlobalState) => { },
 ]);
 
 export default GlobalState;
