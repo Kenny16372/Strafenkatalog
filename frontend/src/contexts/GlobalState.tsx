@@ -23,20 +23,20 @@ let initialState: IGlobalState = {
   fines: [
     {
       name: "Tunnel/20",
-      amount: 50,
+      amount: 100,
       id: 3,
     },
     {
       name: "Gelb wegen Meckern",
-      amount: 1000,
+      amount: 900,
       id: 4,
     },
   ],
 };
 
-const GlobalState = React.createContext([
-  initialState,
-  (a: IGlobalState) => { },
-]);
+const GlobalState = React.createContext({
+  state: initialState,
+  setState: (a: IGlobalState) => {},
+});
 
 export default GlobalState;

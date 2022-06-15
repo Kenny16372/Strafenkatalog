@@ -1,33 +1,44 @@
+import { API_URL } from "../contexts/Config";
 import IFine from "../interfaces/Fine";
 
-export default class FineService {
-	private static finesCache: IFine[] = [
-		{
-			name: "Tunnel/20",
-			amount: 50,
-			id: 3,
-		},
-		{
-			name: "Gelb wegen Meckern",
-			amount: 1000,
-			id: 4,
-		},
-	];
+const BASE_URL = API_URL + "price/";
 
-	public static getAllFines(): IFine[] {
-		return this.finesCache;
-	}
+export const FineService = {
+	createFine(fine: IFine) {
+		console.log("doing a post");
+		
+		fetch(BASE_URL, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(fine),
+		});
+	},
 
-	public static putFine(fine: IFine) {
-		const idx = this.finesCache.findIndex(f => f.id === fine.id);
-		this.finesCache.splice(idx);
-		this.finesCache.push(fine);
-		// TODO replace with following
-		// backend.put(fine);
-		// update();
-	}
+	updateFine(fine: IFine) {
+		fetch(BASE_URL + fine.id, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(fine),
+		});
+	},
 
-	private static update() {
-		this.finesCache = this.finesCache;
+	deleteFine(id: number) {
+		fetch(BASE_URL + id, {
+			method: "DELETE"
+		});
+	},
+
+	retrieveFines(setFines?: ((a: IFine[]) => void)) {
+		const url = BASE_URL + "prices";
+		fetch(url)
+		.then(response => response.json())
+		.then(data=>{console.log(data); return data;})
+		.then(fines => {
+			setFines && setFines(fines);
+		})
 	}
 }

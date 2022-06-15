@@ -1,42 +1,35 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Layout from "./components/Layout/Layout";
-import GlobalState from "./contexts/GlobalState";
+import FineContext from "./contexts/FineContext";
+import IFine from "./interfaces/Fine";
+import { FineService } from "./services/FineService";
 import EditFineView from "./views/EditFineView";
 import FineListView from "./views/FineListView";
 import MainView from "./views/MainView";
 
 function App() {
-  let initialState = {
-    players: [
-      {
-        name: "Kenny",
-        id: 1,
-      },
-      {
-        name: "Luis",
-        id: 2,
-      },
-    ],
-    fines: [
-      {
-        name: "Tunnel/20",
-        amount: 50,
-        id: 3,
-      },
-      {
-        name: "Gelb wegen Meckern",
-        amount: 1000,
-        id: 4,
-      },
-    ],
-  };
+  const [fines, setFines] = useState([] as IFine[]);
 
-  const [state, setState] = useState(initialState);
+  // fines
+  useEffect(() => {
+    let subscribed = true;
+
+    FineService.retrieveFines((fines) => {
+      if (subscribed) {
+        setFines(fines);
+      }
+    });
+
+    return () => {
+      subscribed = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(fines)]);
 
   return (
-    <GlobalState.Provider value={[state, setState]}>
+    <FineContext.Provider value={{ fines, setFines }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -47,7 +40,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </GlobalState.Provider>
+    </FineContext.Provider>
   );
 }
 

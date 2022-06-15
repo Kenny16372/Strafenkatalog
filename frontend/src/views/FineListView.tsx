@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import GlobalState, { IGlobalState } from "../contexts/GlobalState";
+import FineContext from "../contexts/FineContext";
 import formatMoney from "../utils/formatMoney";
 
 function FineListView() {
-  const [state] = useContext(GlobalState);
-  const { fines } = state as IGlobalState;
+  const { fines } = useContext(FineContext);
 
   return (
     <>
@@ -17,9 +16,26 @@ function FineListView() {
               <tr key={fine.id}>
                 <td>{fine.name}</td>
                 <td>{formatMoney(fine.amount)}</td>
-                <td><Link to={"../strafeBearbeiten/" + fine.id}><i className="bi-pencil"/></Link></td>
+                <td>
+                  <Link to={"../strafeBearbeiten/" + fine.id}>
+                    <i className="bi-pencil" />
+                  </Link>
+                </td>
               </tr>
             ))}
+            <tr>
+              <td colSpan={3}>
+                <Link to="../strafeBearbeiten/-1">
+                  <button
+                    type="button"
+                    className="btn btn-success d-block m-auto"
+                    aria-label="Strafe hinzufügen"
+                  >
+                    <i className="bi-plus-lg fs-3 px-5"></i>
+                  </button>
+                </Link>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

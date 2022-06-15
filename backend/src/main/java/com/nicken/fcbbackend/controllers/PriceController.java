@@ -12,6 +12,7 @@ import com.nicken.fcbbackend.services.PriceService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/api/price")
 public class PriceController {
@@ -44,6 +46,7 @@ public class PriceController {
 
     @GetMapping("/prices")
     public ResponseEntity<List<PriceRestModel>> getPrices() {
+        System.out.println("Recieved request");
         var prices = this.priceService.list();
 
         var priceRestModels = new ArrayList<PriceRestModel>();
@@ -63,6 +66,7 @@ public class PriceController {
     public ResponseEntity<PriceRestModel> createPrice(@RequestBody PriceRestModel priceRestModel)
             throws URISyntaxException {
         var price = new Price();
+        System.out.println("new");
 
         var name = priceRestModel.getName();
         var amount = priceRestModel.getAmount();
@@ -85,10 +89,12 @@ public class PriceController {
         var price = this.priceService.find(priceId).orElseThrow(PriceNotFoundException::new);
 
         var name = priceRestModel.getName();
-        if (name == null) {
+        var amount = priceRestModel.getAmount();
+        if (name == null || amount == null) {
             return ResponseEntity.badRequest().build();
         }
         price.setName(name);
+        price.setAmount(amount);
 
         this.priceService.save(price);
 

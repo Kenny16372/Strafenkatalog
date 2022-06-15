@@ -9,7 +9,7 @@ export class Fine implements IFine {
 	amount: number = 0;
 	id: number = 0;
 
-	public Fine(name: string, amount: number, id: number) {
+	constructor(name: string, amount: number, id: number) {
 		this.name = name;
 		this.amount = amount;
 		this.id = id;
