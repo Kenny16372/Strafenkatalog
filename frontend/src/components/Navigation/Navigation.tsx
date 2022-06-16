@@ -11,8 +11,8 @@ function Navigation() {
       <NavLink className="nav-item nav-link" to="/strafenkatalog">
         <i className="bi-file-text"></i>
       </NavLink>
-      <NavLink className="nav-item nav-link" to="./">
-        center
+      <NavLink className="nav-item nav-link" to="./spielerliste">
+        <i className="bi-people"></i>
       </NavLink>
       <NavLink className="nav-item nav-link" to="./">
         right

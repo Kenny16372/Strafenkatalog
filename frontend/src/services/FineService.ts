@@ -5,8 +5,6 @@ const BASE_URL = API_URL + "price/";
 
 export const FineService = {
 	createFine(fine: IFine) {
-		console.log("doing a post");
-		
 		fetch(BASE_URL, {
 			method: "POST",
 			headers: {

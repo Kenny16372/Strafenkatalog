@@ -11,7 +11,7 @@ export default function EditFineView() {
   const fineId = parseInt(id || "");
 
   let fine = fines.find((f) => f.id === fineId);
-  const defaultName = fine?.name || "Strafe";
+  const defaultName = fine?.name || "";
   const defaultAmount = fine?.amount || 0;
   const [name, setName] = useState(defaultName);
   const [amount, setAmount] = useState(defaultAmount);
@@ -55,6 +55,7 @@ export default function EditFineView() {
           name="name"
           id="name"
           type="text"
+          placeholder="Strafe"
           className="form-control"
           value={name}
           onChange={(e) => setName(e.target.value)}
