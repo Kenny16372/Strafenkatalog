@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import TransactionList from "../components/TransactionList/TransactionList";
 import TransactionContext from "../contexts/TransactionContext";
 

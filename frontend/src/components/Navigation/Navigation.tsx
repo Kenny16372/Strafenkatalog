@@ -20,6 +20,9 @@ function Navigation() {
       <NavLink className="nav-item nav-link" to="./vergehensliste">
         <i className="bi-file-text-fill"></i>
       </NavLink>
+      <NavLink className="nav-item nav-link" to="./bezahlen">
+        <i className="bi-cash-coin text-success green"></i>
+      </NavLink>
     </nav>
   );
 }

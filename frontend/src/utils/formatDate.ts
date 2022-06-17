@@ -1,7 +1,7 @@
 export function displayDate(dateVal: number): string {
     const date = new Date(dateVal);
     const options = {
-        dateStyle: "medium",
+        dateStyle: "short",
     } as Intl.DateTimeFormatOptions;
 
     return getDateString(date, options);
@@ -10,7 +10,7 @@ export function displayDate(dateVal: number): string {
 export function displayDateTime(dateVal: number): string {
     const date = new Date(dateVal);
     const options = {
-        dateStyle: "medium",
+        dateStyle: "short",
         timeStyle: "medium",
     } as Intl.DateTimeFormatOptions;
 

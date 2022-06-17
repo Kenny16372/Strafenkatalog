@@ -13,10 +13,11 @@ function TransactionList(props: {
       <table className="table">
         <thead>
           <tr>
-            {!!props.displayPlayer && <td>Spieler</td>}
-            <td>Strafe</td>
-            <td>Betrag</td>
-            <td>Datum</td>
+            {!!props.displayPlayer && <th>Spieler</th>}
+            <th>Strafe</th>
+            <th>Betrag</th>
+            <th>Datum</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

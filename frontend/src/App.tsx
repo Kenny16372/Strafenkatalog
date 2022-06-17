@@ -16,6 +16,7 @@ import EditPlayerView from "./views/EditPlayerView";
 import EditTransactionView from "./views/EditTransactionView";
 import FineListView from "./views/FineListView";
 import MainView from "./views/MainView";
+import PayFineView from "./views/PayFineView";
 import PlayerListView from "./views/PlayerListView";
 import TransactionListView from "./views/TransactionListView";
 
@@ -92,6 +93,7 @@ function App() {
                   element={<TransactionListView />}
                 />
                 <Route path="vergehen/:id" element={<EditTransactionView />} />
+                <Route path="bezahlen" element={<PayFineView />} />
                 <Route path="*" element={<MainView />} />
               </Route>
             </Routes>
