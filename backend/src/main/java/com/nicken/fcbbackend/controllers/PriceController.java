@@ -46,7 +46,6 @@ public class PriceController {
 
     @GetMapping("/prices")
     public ResponseEntity<List<PriceRestModel>> getPrices() {
-        System.out.println("Recieved request");
         var prices = this.priceService.list();
 
         var priceRestModels = new ArrayList<PriceRestModel>();

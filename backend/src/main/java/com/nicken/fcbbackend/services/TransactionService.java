@@ -38,6 +38,8 @@ public class TransactionService {
 
         var locale = new Locale("de", "de");
         transaction.setTimestampDeleted(new Timestamp(Calendar.getInstance(locale).getTime().getTime()));
+
+        transactionRepository.save(transaction);
     }
 
     public void delete(Transaction transaction) {

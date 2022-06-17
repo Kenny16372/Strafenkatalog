@@ -15,7 +15,10 @@ function Navigation() {
         <i className="bi-people"></i>
       </NavLink>
       <NavLink className="nav-item nav-link" to="./">
-        right
+        <i className="bi-bar-chart-line"></i>
+      </NavLink>
+      <NavLink className="nav-item nav-link" to="./vergehensliste">
+        <i className="bi-file-text-fill"></i>
       </NavLink>
     </nav>
   );

@@ -12,6 +12,7 @@ import com.nicken.fcbbackend.services.TransactionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/api/transaction")
 public class TransactionController {
     @Autowired
@@ -100,6 +102,7 @@ public class TransactionController {
 
     @DeleteMapping("/{transactionId}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable long transactionId) {
+        System.out.println("recieved delete request");
         var transaction = this.transactionService.find(transactionId).orElseThrow(TransactionNotFoundException::new);
 
         this.transactionService.delete(transaction);
