@@ -10,9 +10,12 @@ import lombok.NoArgsConstructor;
 public class TransactionRestModel {
     private Long id;
     private Long playerId;
-    private Long priceId;
+    private String player;
+    private Long fineId;
+    private String fine;
     private Integer amount;
     private Integer count;
     private Timestamp timestamp;
+    private Timestamp timestampPaid;
     private Timestamp timestampDeleted;
 }

@@ -1,6 +1,9 @@
 package com.nicken.fcbbackend.services;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import com.nicken.fcbbackend.player.Player;
@@ -14,8 +17,10 @@ public class PlayerService {
     @Autowired
     private IPlayerRepository playerRepository;
 
+    private Locale locale = new Locale("de", "de");
+
     public List<Player> list() {
-        return playerRepository.findAll();
+        return playerRepository.findByTimestampDeletedIsNull();
     }
 
     public void save(Player player) {
@@ -23,14 +28,25 @@ public class PlayerService {
     }
 
     public void delete(long id) {
-        playerRepository.deleteById(id);
+        var playerOptional = this.find(id);
+        if (playerOptional.isEmpty()) {
+            return;
+        }
+        var player = playerOptional.orElseThrow();
+
+        player.setTimestampDeleted(new Timestamp(Calendar.getInstance(locale).getTime().getTime()));
+
+        playerRepository.save(player);
     }
 
     public void delete(Player player) {
         this.delete(player.getId());
     }
 
-    public Optional<Player> find(long id) {
+    public Optional<Player> find(Long id) {
+        if (id == null) {
+            return Optional.empty();
+        }
         return playerRepository.findById(id);
     }
 }

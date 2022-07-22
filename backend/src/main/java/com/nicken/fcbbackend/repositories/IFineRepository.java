@@ -1,13 +1,13 @@
 package com.nicken.fcbbackend.repositories;
 
-import com.nicken.fcbbackend.player.Player;
-
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.nicken.fcbbackend.fine.Fine;
+
 @Repository
-public interface IPlayerRepository extends JpaRepository<Player, Long> {
-    public List<Player> findByTimestampDeletedIsNull();
+public interface IFineRepository extends JpaRepository<Fine, Long> {
+    public List<Fine> findByTimestampDeletedIsNull();
 }

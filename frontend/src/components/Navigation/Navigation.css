@@ -1,3 +1,6 @@
 .nav-link.active > .green {
     color: lightgreen !important;
 }
+.nav-link.active > .yellow {
+    color: #fff176 !important;
+}

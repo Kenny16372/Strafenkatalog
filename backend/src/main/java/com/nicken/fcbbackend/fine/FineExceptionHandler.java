@@ -1,4 +1,4 @@
-package com.nicken.fcbbackend.price;
+package com.nicken.fcbbackend.fine;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class PriceExceptionHandler {
+public class FineExceptionHandler {
 
-    @ExceptionHandler(PriceNotFoundException.class)
+    @ExceptionHandler(FineNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void handleNonExistingPlayer() {
 

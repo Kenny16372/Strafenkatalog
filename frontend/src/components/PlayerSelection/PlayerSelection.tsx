@@ -24,7 +24,9 @@ function PlayerSelection(props: {
 
   return (
     <>
+      <label htmlFor="selectPlayer">Spieler</label>
       <select
+        id="selectPlayer"
         className="form-select"
         defaultValue={getDefaultValue()}
         onChange={playerChanged}

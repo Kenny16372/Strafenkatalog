@@ -17,6 +17,8 @@ public class TransactionService {
     @Autowired
     private ITransactionRepository transactionRepository;
 
+    private Locale locale = new Locale("de", "de");
+
     public List<Transaction> list() {
         return transactionRepository.findAll();
     }
@@ -26,7 +28,16 @@ public class TransactionService {
         if (id != null && this.find(id).isPresent()) {
             return id;
         }
+
+        transaction.setTimestamp(new Timestamp(Calendar.getInstance(locale).getTime().getTime()));
+
         return transactionRepository.save(transaction).getId();
+    }
+
+    public void payFine(Transaction transaction) {
+        transaction.setTimestampPaid(new Timestamp(Calendar.getInstance(locale).getTime().getTime()));
+
+        transactionRepository.save(transaction);
     }
 
     public void delete(long id) {
@@ -36,7 +47,6 @@ public class TransactionService {
         }
         var transaction = transactionOptional.orElseThrow();
 
-        var locale = new Locale("de", "de");
         transaction.setTimestampDeleted(new Timestamp(Calendar.getInstance(locale).getTime().getTime()));
 
         transactionRepository.save(transaction);

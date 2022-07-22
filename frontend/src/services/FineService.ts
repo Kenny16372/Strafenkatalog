@@ -1,41 +1,41 @@
 import { API_URL } from "../contexts/Config";
 import IFine from "../interfaces/Fine";
 
-const BASE_URL = API_URL + "price/";
+const BASE_URL = API_URL + "fine/";
 
 export const FineService = {
-	createFine(fine: IFine) {
-		fetch(BASE_URL, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(fine),
-		});
-	},
+  createFine(fine: IFine): Promise<void> {
+    return fetch(BASE_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(fine),
+    }).then();
+  },
 
-	updateFine(fine: IFine) {
-		fetch(BASE_URL + fine.id, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(fine),
-		});
-	},
+  updateFine(fine: IFine): Promise<void> {
+    return fetch(BASE_URL + fine.id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(fine),
+    }).then();
+  },
 
-	deleteFine(id: number) {
-		fetch(BASE_URL + id, {
-			method: "DELETE"
-		});
-	},
+  deleteFine(id: number): Promise<void> {
+    return fetch(BASE_URL + id, {
+      method: "DELETE",
+    }).then();
+  },
 
-	retrieveFines(setFines?: ((a: IFine[]) => void)) {
-		const url = BASE_URL + "prices";
-		fetch(url)
-		.then(response => response.json())
-		.then(fines => {
-			setFines && setFines(fines);
-		})
-	}
-}
+  retrieveFines(setFines?: (a: IFine[]) => void) {
+    const url = BASE_URL + "fines";
+    fetch(url)
+      .then((response) => response.json())
+      .then((fines) => {
+        setFines && setFines(fines);
+      });
+  },
+};

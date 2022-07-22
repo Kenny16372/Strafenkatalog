@@ -3,11 +3,15 @@ package com.nicken.fcbbackend.controllers;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.nicken.fcbbackend.transaction.Transaction;
 import com.nicken.fcbbackend.transaction.TransactionNotFoundException;
 import com.nicken.fcbbackend.transaction.TransactionRestModel;
+import com.nicken.fcbbackend.services.PlayerService;
+import com.nicken.fcbbackend.services.FineService;
 import com.nicken.fcbbackend.services.TransactionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +19,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +36,10 @@ import lombok.AllArgsConstructor;
 public class TransactionController {
     @Autowired
     private TransactionService transactionService;
+    @Autowired
+    private PlayerService playerService;
+    @Autowired
+    private FineService fineService;
 
     @GetMapping("/{transactionId}")
     public ResponseEntity<TransactionRestModel> getTransactionById(@PathVariable long transactionId)
@@ -39,11 +49,12 @@ public class TransactionController {
         var transactionRestModel = new TransactionRestModel();
 
         transactionRestModel.setId(transaction.getId());
-        transactionRestModel.setPlayerId(transaction.getPlayerId());
-        transactionRestModel.setPriceId(transaction.getPriceId());
+        transactionRestModel.setPlayerId(transaction.getPlayer().getId());
+        transactionRestModel.setFineId(transaction.getFine().getId());
         transactionRestModel.setAmount(transaction.getAmount());
         transactionRestModel.setCount(transaction.getCount());
         transactionRestModel.setTimestamp(transaction.getTimestamp());
+        transactionRestModel.setTimestampPaid(transaction.getTimestampPaid());
         transactionRestModel.setTimestampDeleted(transaction.getTimestampDeleted());
 
         return ResponseEntity.ok(transactionRestModel);
@@ -59,11 +70,14 @@ public class TransactionController {
             var transactionRestModel = new TransactionRestModel();
 
             transactionRestModel.setId(transaction.getId());
-            transactionRestModel.setPlayerId(transaction.getPlayerId());
-            transactionRestModel.setPriceId(transaction.getPriceId());
+            transactionRestModel.setPlayerId(transaction.getPlayer().getId());
+            transactionRestModel.setPlayer(transaction.getPlayer().getName());
+            transactionRestModel.setFineId(transaction.getFine().getId());
+            transactionRestModel.setFine(transaction.getFine().getName());
             transactionRestModel.setAmount(transaction.getAmount());
             transactionRestModel.setCount(transaction.getCount());
             transactionRestModel.setTimestamp(transaction.getTimestamp());
+            transactionRestModel.setTimestampPaid(transaction.getTimestampPaid());
             transactionRestModel.setTimestampDeleted(transaction.getTimestampDeleted());
 
             transactionRestModels.add(transactionRestModel);
@@ -79,19 +93,19 @@ public class TransactionController {
         var transaction = new Transaction();
 
         var playerId = transactionRestModel.getPlayerId();
-        var priceId = transactionRestModel.getPriceId();
+        var fineId = transactionRestModel.getFineId();
         var amount = transactionRestModel.getAmount();
         var count = transactionRestModel.getCount();
-        var timestamp = transactionRestModel.getTimestamp();
+        var player = playerService.find(playerId);
+        var fine = fineService.find(fineId);
 
-        if (playerId == null || priceId == null || amount == null || count == null || timestamp == null) {
+        if (player.isEmpty() || fine.isEmpty() || amount == null || count == null) {
             return ResponseEntity.badRequest().build();
         }
-        transaction.setPlayerId(playerId);
-        transaction.setPriceId(priceId);
+        transaction.setPlayer(player.orElseThrow());
+        transaction.setFine(fine.orElseThrow());
         transaction.setAmount(amount);
         transaction.setCount(count);
-        transaction.setTimestamp(timestamp);
 
         this.transactionService.save(transaction);
 
@@ -100,13 +114,24 @@ public class TransactionController {
         return ResponseEntity.created(new URI(String.valueOf(transaction.getId()))).body(transactionRestModel);
     }
 
+    @PatchMapping("/transactions")
+    public ResponseEntity<Void> payFines(@RequestBody Long[] transactionIds) {
+        System.out.println(Arrays.stream(transactionIds).map(x -> x.toString()).collect(Collectors.joining(", ")));
+        for (var transactionId : transactionIds) {
+            var transaction = this.transactionService.find(transactionId)
+                    .orElseThrow(TransactionNotFoundException::new);
+            // There's no other patch request, so only paying a fine is possible
+            this.transactionService.payFine(transaction);
+        }
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{transactionId}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable long transactionId) {
-        System.out.println("recieved delete request");
         var transaction = this.transactionService.find(transactionId).orElseThrow(TransactionNotFoundException::new);
 
         this.transactionService.delete(transaction);
 
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.ok().build();
     }
 }

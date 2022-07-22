@@ -23,6 +23,9 @@ function Navigation() {
       <NavLink className="nav-item nav-link" to="./bezahlen">
         <i className="bi-cash-coin text-success green"></i>
       </NavLink>
+      <NavLink className="nav-item nav-link" to="./bestrafen">
+        <i className="bi-file-fill text-warning yellow"></i>
+      </NavLink>
     </nav>
   );
 }

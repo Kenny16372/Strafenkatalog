@@ -1,5 +1,7 @@
 package com.nicken.fcbbackend.player;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "players")
+@Table(name = "player")
 public class Player {
     @GeneratedValue
     @Id
@@ -22,4 +24,6 @@ public class Player {
     private Long id;
     @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "timestampDeleted", nullable = true)
+    private Timestamp timestampDeleted;
 }

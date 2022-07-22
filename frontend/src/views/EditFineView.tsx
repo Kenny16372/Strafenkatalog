@@ -22,29 +22,23 @@ export default function EditFineView() {
     e.preventDefault();
     if (!fine) {
       fine = new Fine(name, amount, -1);
-      FineService.createFine(fine);
-      setFines(fines.concat(fine));
+      FineService.createFine(fine)
+        .then(() => FineService.retrieveFines(setFines))
+        .then(() => navigate("/strafenkatalog"));
     } else {
       fine.name = name;
       fine.amount = amount;
-      FineService.updateFine(fine);
-      setFines(fines.slice());
+      FineService.updateFine(fine)
+        .then(() => FineService.retrieveFines(setFines))
+        .then(() => navigate("/strafenkatalog"));
     }
-
-    navigate("/strafenkatalog");
   }
 
   function deleteFine(e: any): void {
     e.preventDefault();
-    FineService.deleteFine(fineId);
-    const idx = fines.findIndex((fine) => fine.id === fineId);
-    if (idx !== -1) {
-      let newFines = fines.slice();
-      newFines.splice(idx, 1);
-      setFines(newFines);
-    }
-
-    navigate("/strafenkatalog");
+    FineService.deleteFine(fineId)
+      .then(() => FineService.retrieveFines(setFines))
+      .then(() => navigate("/strafenkatalog"));
   }
 
   return (
@@ -76,13 +70,17 @@ export default function EditFineView() {
           />
         </div>
         <div className="container-fluid justify-content-center d-flex pt-2 gap-2">
-          <button className="btn" onClick={() => navigate("/strafenkatalog")}>
+          <button
+            className="btn"
+            type="button"
+            onClick={() => navigate("/strafenkatalog")}
+          >
             Zurück
           </button>
           <button type="submit" className="btn btn-primary">
             Speichern
           </button>
-          <button className="btn btn-danger" onClick={deleteFine}>
+          <button className="btn btn-danger" type="button" onClick={deleteFine}>
             Löschen
           </button>
         </div>

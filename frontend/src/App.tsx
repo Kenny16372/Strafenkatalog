@@ -11,6 +11,7 @@ import ITransaction from "./interfaces/Transaction";
 import { FineService } from "./services/FineService";
 import { PlayerService } from "./services/PlayerService";
 import { TransactionService } from "./services/TransactionService";
+import CreateFineView from "./views/CreateFineView";
 import EditFineView from "./views/EditFineView";
 import EditPlayerView from "./views/EditPlayerView";
 import EditTransactionView from "./views/EditTransactionView";
@@ -94,6 +95,7 @@ function App() {
                 />
                 <Route path="vergehen/:id" element={<EditTransactionView />} />
                 <Route path="bezahlen" element={<PayFineView />} />
+                <Route path="bestrafen" element={<CreateFineView />} />
                 <Route path="*" element={<MainView />} />
               </Route>
             </Routes>

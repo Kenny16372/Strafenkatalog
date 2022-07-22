@@ -19,28 +19,24 @@ export default function EditPlayerView() {
     e.preventDefault();
     if (!player) {
       player = new Player(name, -1);
-      PlayerService.createPlayer(player);
-      setPlayers(players.concat(player));
+      PlayerService.createPlayer(player)
+        .then(() => PlayerService.retrievePlayers(setPlayers))
+        .then(() => {
+          navigate("/spielerliste");
+        });
     } else {
       player.name = name;
-      PlayerService.updatePlayer(player);
-      setPlayers(players.slice());
+      PlayerService.updatePlayer(player)
+        .then(() => PlayerService.retrievePlayers(setPlayers))
+        .then(() => navigate("/spielerliste"));
     }
-
-    navigate("/spielerliste");
   }
 
   function deletePlayer(e: any): void {
     e.preventDefault();
-    PlayerService.deletePlayer(playerId);
-    const idx = players.findIndex((player) => player.id === playerId);
-    if (idx !== -1) {
-      let newPlayers = players.slice();
-      newPlayers.splice(idx, 1);
-      setPlayers(newPlayers);
-    }
-
-    navigate("/spielerliste");
+    PlayerService.deletePlayer(playerId)
+      .then(() => PlayerService.retrievePlayers(setPlayers))
+      .then(() => navigate("/spielerliste"));
   }
 
   return (
@@ -57,13 +53,21 @@ export default function EditPlayerView() {
           onChange={(e) => setName(e.target.value)}
         />
         <div className="container-fluid justify-content-center d-flex pt-2 gap-2">
-          <button className="btn" onClick={() => navigate("/spielerliste")}>
+          <button
+            className="btn"
+            type="button"
+            onClick={() => navigate("/spielerliste")}
+          >
             Zurück
           </button>
           <button type="submit" className="btn btn-primary">
             Speichern
           </button>
-          <button className="btn btn-danger" onClick={deletePlayer}>
+          <button
+            className="btn btn-danger"
+            type="button"
+            onClick={deletePlayer}
+          >
             Löschen
           </button>
         </div>

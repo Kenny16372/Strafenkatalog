@@ -27,7 +27,9 @@ export default function EditTransactionView() {
 
   function deleteTransaction(e: any): void {
     e.preventDefault();
-    TransactionService.deleteTransaction(transactionId);
+    TransactionService.deleteTransaction(transactionId).then(() =>
+      TransactionService.retrieveTransactions(setTransactions)
+    );
     if (!transaction) {
       return;
     }
@@ -49,12 +51,12 @@ export default function EditTransactionView() {
           readOnly
           className="form-control"
         />
-        <label htmlFor="price">Strafe</label>
+        <label htmlFor="fine">Strafe</label>
         <input
-          name="price"
-          id="price"
+          name="fine"
+          id="fine"
           type="text"
-          value={transaction.price}
+          value={transaction.fine}
           readOnly
           className="form-control"
         />

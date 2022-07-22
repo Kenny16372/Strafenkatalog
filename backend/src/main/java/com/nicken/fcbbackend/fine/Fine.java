@@ -1,4 +1,6 @@
-package com.nicken.fcbbackend.price;
+package com.nicken.fcbbackend.fine;
+
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,8 +16,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "prices")
-public class Price {
+@Table(name = "fine")
+public class Fine {
     @GeneratedValue
     @Id
     @Column(name = "id", updatable = false, nullable = false)
@@ -25,4 +27,6 @@ public class Price {
     // amount in cents
     @Column(name = "amount", nullable = false)
     private Integer amount;
+    @Column(name = "timestampDeleted", nullable = true)
+    private Timestamp timestampDeleted;
 }
