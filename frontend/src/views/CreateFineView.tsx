@@ -16,7 +16,8 @@ function CreateFineView() {
   const amount = () => fines.find((f) => f.id === fineId)?.amount ?? 0;
   const total = () => count * amount();
 
-  function create() {
+  function create(e: any) {
+    e.prevenDefault();
     const transaction = new Transaction(
       -1,
       "",
@@ -43,7 +44,7 @@ function CreateFineView() {
       <div className="container">
         <PlayerSelection playerChanged={setPlayerId} selected={playerId} />
         <FineSelection fineChanged={setFineId} selected={fineId} />
-        <div>
+        <form onSubmit={create}>
           <label htmlFor="count">Anzahl</label>
           <input
             id="count"
@@ -60,11 +61,10 @@ function CreateFineView() {
             disabled={!count}
             className="btn btn-success mt-2 mx-auto d-block"
             type="submit"
-            onSubmit={create}
           >
             Strafe verhängen
           </button>
-        </div>
+        </form>
       </div>
     </>
   );
