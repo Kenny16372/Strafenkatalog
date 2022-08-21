@@ -10,7 +10,7 @@ COPY ./frontend .
 RUN npm run build
 
 # build Spring Boot app
-FROM amazoncorretto:18-alpine-jdk AS build_spring
+FROM amazoncorretto:18-alpine AS build_spring
 
 WORKDIR /backend
 

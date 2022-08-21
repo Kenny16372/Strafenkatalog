@@ -13,18 +13,17 @@ function CreateFineView() {
   const { fines } = useContext(FineContext);
   const { transactions, setTransactions } = useContext(TransactionContext);
   const [count, setCount] = useState(0);
-  const amount = fines.find((f) => f.id === fineId)?.amount ?? 0;
-  const total = count * amount;
+  const amount = () => fines.find((f) => f.id === fineId)?.amount ?? 0;
+  const total = () => count * amount();
 
-  function create(e: any) {
-    e.preventDefault();
+  function create() {
     const transaction = new Transaction(
       -1,
       "",
       playerId ?? -1,
       "",
       fineId ?? -1,
-      total,
+      total(),
       count,
       Date.now()
     );
@@ -44,7 +43,7 @@ function CreateFineView() {
       <div className="container">
         <PlayerSelection playerChanged={setPlayerId} selected={playerId} />
         <FineSelection fineChanged={setFineId} selected={fineId} />
-        <form onSubmit={create}>
+        <div>
           <label htmlFor="count">Anzahl</label>
           <input
             id="count"
@@ -55,16 +54,17 @@ function CreateFineView() {
             onChange={(e) => setCount(parseInt(e.target.value))}
           />
           <span className="d-block text-center display-4 my-3">
-            {formatMoney(total)}
+            {formatMoney(total())}
           </span>
           <button
             disabled={!count}
             className="btn btn-success mt-2 mx-auto d-block"
             type="submit"
+            onSubmit={create}
           >
             Strafe verhängen
           </button>
-        </form>
+        </div>
       </div>
     </>
   );
