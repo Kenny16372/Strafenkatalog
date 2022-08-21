@@ -18,6 +18,9 @@ WORKDIR /backend
 COPY ./backend/ .
 # copy react app
 COPY --from=build_react /app/build /frontend/build
+
+RUN chmod +x ./mvnw
+
 RUN ./mvnw package
 
 FROM amazoncorretto:18-alpine
