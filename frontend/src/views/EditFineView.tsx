@@ -12,7 +12,7 @@ export default function EditFineView() {
 
   let fine = fines.find((f) => f.id === fineId);
   const defaultName = fine?.name || "";
-  const defaultAmount = fine?.amount || 0;
+  const defaultAmount = "" + (fine?.amount || 0);
   const [name, setName] = useState(defaultName);
   const [amount, setAmount] = useState(defaultAmount);
 
@@ -20,14 +20,15 @@ export default function EditFineView() {
 
   function saveChanges(e: any) {
     e.preventDefault();
+    const price = readMoney(amount);
     if (!fine) {
-      fine = new Fine(name, amount, -1);
+      fine = new Fine(name, price, -1);
       FineService.createFine(fine)
         .then(() => FineService.retrieveFines(setFines))
         .then(() => navigate("/strafenkatalog"));
     } else {
       fine.name = name;
-      fine.amount = amount;
+      fine.amount = price;
       FineService.updateFine(fine)
         .then(() => FineService.retrieveFines(setFines))
         .then(() => navigate("/strafenkatalog"));
@@ -65,8 +66,8 @@ export default function EditFineView() {
             type="number"
             className="form-control"
             step="0.5"
-            value={amount / 100}
-            onChange={(e) => setAmount(readMoney(e.target.value))}
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
           />
         </div>
         <div className="container-fluid justify-content-center d-flex pt-2 gap-2">

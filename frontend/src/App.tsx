@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Layout from "./components/Layout/Layout";
 import FineContext from "./contexts/FineContext";
@@ -78,28 +78,31 @@ function App() {
     <FineContext.Provider value={{ fines, setFines }}>
       <PlayerContext.Provider value={{ players, setPlayers }}>
         <TransactionContext.Provider value={{ transactions, setTransactions }}>
-          <BrowserRouter>
+          <HashRouter>
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<MainView />} />
-                <Route path="strafenkatalog" element={<FineListView />} />
-                <Route path="strafeBearbeiten/:id" element={<EditFineView />} />
-                <Route path="spielerliste" element={<PlayerListView />} />
+                <Route path="/strafenkatalog" element={<FineListView />} />
                 <Route
-                  path="spielerBearbeiten/:id"
+                  path="/strafeBearbeiten/:id"
+                  element={<EditFineView />}
+                />
+                <Route path="/spielerliste" element={<PlayerListView />} />
+                <Route
+                  path="/spielerBearbeiten/:id"
                   element={<EditPlayerView />}
                 />
                 <Route
-                  path="vergehensliste"
+                  path="/vergehensliste"
                   element={<TransactionListView />}
                 />
-                <Route path="vergehen/:id" element={<EditTransactionView />} />
-                <Route path="bezahlen" element={<PayFineView />} />
-                <Route path="bestrafen" element={<CreateFineView />} />
+                <Route path="/vergehen/:id" element={<EditTransactionView />} />
+                <Route path="/bezahlen" element={<PayFineView />} />
+                <Route path="/bestrafen" element={<CreateFineView />} />
                 <Route path="*" element={<MainView />} />
               </Route>
             </Routes>
-          </BrowserRouter>
+          </HashRouter>
         </TransactionContext.Provider>
       </PlayerContext.Provider>
     </FineContext.Provider>
