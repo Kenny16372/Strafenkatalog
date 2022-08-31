@@ -1,10 +1,5 @@
 export default function readMoney(money: string) {
-  console.log(money);
-
-  const result = moneyInCents(parseFloat(money.replace(/,/, ".")));
-  console.log(result);
-
-  return result;
+  return moneyInCents(parseFloat(money.replace(/,/, ".")));
 }
 
 export function moneyInCents(amount: number) {

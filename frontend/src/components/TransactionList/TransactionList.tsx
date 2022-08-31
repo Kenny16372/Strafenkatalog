@@ -52,7 +52,12 @@ function TransactionList(props: {
           <tr>
             {!!selectionChanged && (
               <th>
-                <input type="checkbox" id="selectAll" onChange={changeAll} />
+                <input
+                  type="checkbox"
+                  id="selectAll"
+                  onChange={changeAll}
+                  defaultChecked={false}
+                />
               </th>
             )}
             {!!props.displayPlayer && <th>Spieler</th>}

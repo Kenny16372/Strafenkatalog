@@ -16,8 +16,8 @@ function CreateFineView() {
   const amount = () => fines.find((f) => f.id === fineId)?.amount ?? 0;
   const total = () => count * amount();
 
-  function create(e: any) {
-    e.prevenDefault();
+  function create(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     const transaction = new Transaction(
       -1,
       "",
@@ -33,8 +33,6 @@ function CreateFineView() {
     );
 
     setCount(0);
-    setFineId(undefined);
-    setPlayerId(undefined);
     setTransactions(transactions.concat(transaction));
   }
 
