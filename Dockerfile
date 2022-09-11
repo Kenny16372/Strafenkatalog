@@ -10,12 +10,14 @@ COPY ./frontend .
 RUN npm run build
 
 # build Spring Boot app
-FROM amazoncorretto:18-alpine AS build_spring
+FROM maven:3-amazoncorretto-17 AS build_spring
 
 WORKDIR /backend
 
 COPY /backend/pom.xml /backend/mvnw ./
-RUN ./mvnw clean package -Dmaven.main.skip -Dmaven.test.skip && rm -r target
+#RUN ls -la
+#RUN chmod +x ./mvnw
+RUN mvn clean package -Dmaven.main.skip -Dmaven.test.skip && rm -r target
 
 # copy spring files
 COPY ./backend/ .
@@ -24,9 +26,9 @@ COPY --from=build_react /app/build /frontend/build
 
 RUN chmod +x ./mvnw
 
-RUN ./mvnw package
+RUN mvn package
 
-FROM amazoncorretto:18-alpine
+FROM amazoncorretto:17-alpine
 
 WORKDIR /strafenkatalog
 
