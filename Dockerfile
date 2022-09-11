@@ -17,7 +17,7 @@ WORKDIR /backend
 COPY /backend/pom.xml /backend/mvnw ./
 #RUN ls -la
 #RUN chmod +x ./mvnw
-RUN mvn clean verify
+RUN mvn clean validate
 
 # copy spring files
 COPY ./backend/ .
