@@ -14,6 +14,9 @@ FROM amazoncorretto:18-alpine AS build_spring
 
 WORKDIR /backend
 
+COPY /backend/pom.xml /backend/mvnw ./
+RUN ./mvnw clean package -Dmaven.main.skip -Dmaven.test.skip && rm -r target
+
 # copy spring files
 COPY ./backend/ .
 # copy react app
