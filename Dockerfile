@@ -17,7 +17,7 @@ WORKDIR /backend
 COPY /backend/pom.xml /backend/mvnw ./
 #RUN ls -la
 #RUN chmod +x ./mvnw
-RUN mvn clean package -Dmaven.main.skip -Dmaven.test.skip && rm -r target
+RUN mvn clean verify
 
 # copy spring files
 COPY ./backend/ .
