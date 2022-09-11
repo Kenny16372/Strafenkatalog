@@ -14,7 +14,7 @@
 	<description>Backend for FC fines</description>
 	<packaging>jar</packaging>
 	<properties>
-		<java.version>18</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -62,6 +62,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<classifier>spring-boot</classifier>
+							<mainClass>com.nicken.fcbbackend.Application</mainClass>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -79,23 +91,6 @@
 									<directory>${basedir}/../frontend/build</directory>
 								</resource>
 							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-						<configuration>
-							<classifier>spring-boot</classifier>
-							<mainClass>
-                  com.nicken.fcbbackend.Application
-                </mainClass>
 						</configuration>
 					</execution>
 				</executions>
