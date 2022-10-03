@@ -8,3 +8,9 @@
 #navigation {
     background: white;
 }
+
+.nav-box {
+    height: 50px;
+    position: sticky;
+    bottom: 0;
+}
