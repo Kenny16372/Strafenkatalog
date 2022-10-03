@@ -4,3 +4,7 @@
 .nav-link.active > .yellow {
     color: #fff176 !important;
 }
+
+#navigation {
+    background: white;
+}

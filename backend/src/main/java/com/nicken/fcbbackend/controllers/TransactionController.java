@@ -3,9 +3,7 @@ package com.nicken.fcbbackend.controllers;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.nicken.fcbbackend.transaction.Transaction;
 import com.nicken.fcbbackend.transaction.TransactionNotFoundException;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -116,7 +113,6 @@ public class TransactionController {
 
     @PatchMapping("/transactions")
     public ResponseEntity<Void> payFines(@RequestBody Long[] transactionIds) {
-        System.out.println(Arrays.stream(transactionIds).map(x -> x.toString()).collect(Collectors.joining(", ")));
         for (var transactionId : transactionIds) {
             var transaction = this.transactionService.find(transactionId)
                     .orElseThrow(TransactionNotFoundException::new);

@@ -5,6 +5,7 @@ import TransactionContext from "../contexts/TransactionContext";
 
 function TransactionListView() {
   const { transactions } = useContext(TransactionContext);
+  transactions.sort((a, b) => b.timestamp - a.timestamp);
 
   const search = useLocation().search;
   const player = new URLSearchParams(search).get("spieler");
