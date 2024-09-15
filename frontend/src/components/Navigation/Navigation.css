@@ -1,16 +1,16 @@
 .nav-link.active > .green {
-    color: lightgreen !important;
+  color: lightgreen !important;
 }
 .nav-link.active > .yellow {
-    color: #fff176 !important;
+  color: #fff176 !important;
 }
 
 #navigation {
-    background: white;
+  background: white;
 }
 
 .nav-box {
-    height: 50px;
-    position: sticky;
-    bottom: 0;
+  height: 50px;
+  position: sticky;
+  bottom: 0;
 }
