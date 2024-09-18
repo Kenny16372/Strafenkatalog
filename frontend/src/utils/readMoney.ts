@@ -1,9 +1,5 @@
 export default function readMoney(money: string) {
-  return moneyInCents(parseFloat(money.replace(/,/, ".")));
-}
-
-export function moneyInCents(amount: number) {
-  return roundTwoDigits(amount) * 100;
+  return roundTwoDigits(parseFloat(money.replace(/,/, ".")));
 }
 
 export function roundTwoDigits(num: number) {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import PlayerContext from "../../contexts/PlayerContext";
 
 function PlayerSelection(props: {
@@ -6,6 +6,14 @@ function PlayerSelection(props: {
   playerChanged?: (a: number) => void;
 }) {
   const { players } = useContext(PlayerContext);
+  const activePlayers = useMemo(
+    () => players.filter((player) => player.is_active),
+    [players]
+  );
+  const inactivePlayers = useMemo(
+    () => players.filter((player) => !player.is_active),
+    [players]
+  );
 
   function playerChanged(e: any): void {
     const id = parseInt(e.target.value);
@@ -31,11 +39,21 @@ function PlayerSelection(props: {
         defaultValue={getDefaultValue()}
         onChange={playerChanged}
       >
-        {players.map((player) => (
-          <option key={player.id} value={player.id}>
-            {player.name}
-          </option>
-        ))}
+        <option value="">Bitte wählen</option>
+        <optgroup label="Aktiv">
+          {activePlayers.map((player) => (
+            <option key={player.id} value={player.id}>
+              {player.name}
+            </option>
+          ))}
+        </optgroup>
+        <optgroup label="Inaktiv">
+          {inactivePlayers.map((player) => (
+            <option key={player.id} value={player.id}>
+              {player.name}
+            </option>
+          ))}
+        </optgroup>
       </select>
     </>
   );

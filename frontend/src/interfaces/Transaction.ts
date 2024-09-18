@@ -8,6 +8,7 @@ export default interface ITransaction {
   count: number;
   timestamp: number;
   timestampDeleted?: number;
+  timestampPaid?: number;
 }
 
 export class Transaction implements ITransaction {
@@ -20,6 +21,7 @@ export class Transaction implements ITransaction {
   count: number;
   timestamp: number;
   timestampDeleted?: number;
+  timestampPaid?: number;
 
   constructor(
     id: number,
@@ -30,7 +32,8 @@ export class Transaction implements ITransaction {
     amount: number,
     count: number,
     timestamp: number,
-    timestampDeleted?: number
+    timestampDeleted?: number,
+    timestampPaid?: number
   ) {
     this.id = id;
     this.player = player;
@@ -41,5 +44,6 @@ export class Transaction implements ITransaction {
     this.count = count;
     this.timestamp = timestamp;
     this.timestampDeleted = timestampDeleted;
+    this.timestampPaid = timestampPaid;
   }
 }

@@ -15,7 +15,9 @@ function FineListView() {
             {fines.map((fine) => (
               <tr key={fine.id}>
                 <td>{fine.name}</td>
-                <td>{formatMoney(fine.amount)}</td>
+                <td className="text-nowrap text-end">
+                  {formatMoney(fine.amount)}
+                </td>
                 <td>
                   <Link to={"../strafeBearbeiten/" + fine.id}>
                     <i className="bi-pencil" />

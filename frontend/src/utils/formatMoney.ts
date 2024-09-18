@@ -1,6 +1,6 @@
-export default function formatMoney(cents: number) {
+export default function formatMoney(euros: number) {
   return (
-    (cents / 100).toLocaleString(undefined, {
+    euros.toLocaleString(undefined, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }) + " €"

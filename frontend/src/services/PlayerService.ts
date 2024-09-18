@@ -5,7 +5,7 @@ const BASE_URL = API_URL + "player/";
 
 export const PlayerService = {
   createPlayer(player: IPlayer): Promise<void> {
-    return fetch(BASE_URL, {
+    return fetch("https://localhost/backend/players/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -15,7 +15,7 @@ export const PlayerService = {
   },
 
   updatePlayer(player: IPlayer): Promise<void> {
-    return fetch(BASE_URL + player.id, {
+    return fetch(`https://localhost/backend/players/?id=${player.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -25,14 +25,13 @@ export const PlayerService = {
   },
 
   deletePlayer(id: number): Promise<void> {
-    return fetch(BASE_URL + id, {
+    return fetch(`https://localhost/backend/players/?id=${id}`, {
       method: "DELETE",
     }).then();
   },
 
   retrievePlayers(setPlayers?: (a: IPlayer[]) => void) {
-    const url = BASE_URL + "players";
-    fetch(url)
+    fetch("https://localhost/backend/players/")
       .then((response) => response.json())
       .then((players) => {
         setPlayers && setPlayers(players);

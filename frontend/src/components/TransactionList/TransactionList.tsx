@@ -69,7 +69,13 @@ function TransactionList(props: {
         </thead>
         <tbody>
           {props.transactions.map((transaction) => (
-            <tr key={transaction.id}>
+            <tr
+              key={transaction.id}
+              className={
+                (!!transaction.timestampDeleted ? "table-secondary" : "") +
+                (!!transaction.timestampPaid ? " table-success" : "")
+              }
+            >
               {!!selectionChanged && (
                 <td>
                   <input
@@ -83,7 +89,7 @@ function TransactionList(props: {
               )}
               {!!props.displayPlayer && <td>{transaction.player}</td>}
               <td>{transaction.fine}</td>
-              <td>{formatMoney(transaction.amount)}</td>
+              <td className="text-nowrap">{formatMoney(transaction.amount)}</td>
               <td>{displayDate(transaction.timestamp)}</td>
               <td>
                 <Link to={"../vergehen/" + transaction.id}>

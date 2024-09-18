@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import PlayerSelection from "../components/PlayerSelection/PlayerSelection";
 import TransactionList from "../components/TransactionList/TransactionList";
 import TransactionContext from "../contexts/TransactionContext";
@@ -8,19 +8,20 @@ import formatMoney from "../utils/formatMoney";
 function PayFineView() {
   const [playerId, setPlayerId] = useState(undefined as number | undefined);
   const { transactions, setTransactions } = useContext(TransactionContext);
-  const filtered = useCallback(
-    () => transactions.filter((t) => t.playerId === playerId),
+  const filtered = useMemo(
+    () =>
+      transactions
+        .filter((t) => t.playerId === playerId)
+        .filter((t) => !t.timestampDeleted && !t.timestampPaid),
     [transactions, playerId]
   );
   const total = () =>
-    filtered()
-      .map(({ amount }) => amount)
-      .reduce((acc, val) => acc + val, 0);
+    filtered.map(({ amount }) => amount).reduce((acc, val) => acc + val, 0);
   const [payAmount, setPayAmount] = useState(total());
   const [selected, setSelected] = useState([] as number[]);
 
   useEffect(() => {
-    const toBePaid = filtered()
+    const toBePaid = filtered
       .filter(({ id }) => selected.includes(id))
       .reduce((acc, { amount }) => acc + amount, 0);
     setPayAmount(toBePaid);
@@ -50,7 +51,7 @@ function PayFineView() {
           </button>
         </form>
         <TransactionList
-          transactions={filtered()}
+          transactions={filtered}
           displayPlayer={false}
           selectionChanged={setSelected}
         />

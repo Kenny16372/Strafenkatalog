@@ -65,7 +65,10 @@ export default function EditTransactionView() {
           name="amount"
           id="amount"
           type="number"
-          value={formatMoney(transaction.amount)}
+          value={transaction.amount.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
           readOnly
           className="form-control"
         />
@@ -87,7 +90,7 @@ export default function EditTransactionView() {
           readOnly
           className="form-control"
         />
-        <label htmlFor="timestampDeleted">Datum storniert</label>
+        <label htmlFor="timestampDeleted">Storniert am</label>
         <input
           name="timestampDeleted"
           id="timestampDeleted"
@@ -100,11 +103,24 @@ export default function EditTransactionView() {
           readOnly
           className="form-control"
         />
+        <label htmlFor="timestampPaid">Bezahlt am</label>
+        <input
+          name="timestampPaid"
+          id="timestampPaid"
+          type="text"
+          value={
+            transaction.timestampPaid
+              ? displayDateTime(transaction.timestampPaid)
+              : ""
+          }
+          readOnly
+          className="form-control"
+        />
         <div className="container-fluid justify-content-center d-flex pt-2 gap-2">
           <button className="btn" onClick={() => navigate("/vergehensliste")}>
             Zurück
           </button>
-          {!transaction.timestampDeleted && (
+          {!transaction.timestampDeleted && !transaction.timestampPaid && (
             <button className="btn btn-danger" onClick={deleteTransaction}>
               Stornieren
             </button>
