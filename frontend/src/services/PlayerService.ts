@@ -1,11 +1,11 @@
 import { API_URL } from "../contexts/Config";
 import IPlayer from "../interfaces/Player";
 
-const BASE_URL = API_URL + "player/";
+const BASE_URL = API_URL + "players/";
 
 export const PlayerService = {
   createPlayer(player: IPlayer): Promise<void> {
-    return fetch("https://localhost/backend/players/", {
+    return fetch(BASE_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -15,7 +15,7 @@ export const PlayerService = {
   },
 
   updatePlayer(player: IPlayer): Promise<void> {
-    return fetch(`https://localhost/backend/players/?id=${player.id}`, {
+    return fetch(`${BASE_URL}?id=${player.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -25,13 +25,13 @@ export const PlayerService = {
   },
 
   deletePlayer(id: number): Promise<void> {
-    return fetch(`https://localhost/backend/players/?id=${id}`, {
+    return fetch(`${BASE_URL}?id=${id}`, {
       method: "DELETE",
     }).then();
   },
 
   retrievePlayers(setPlayers?: (a: IPlayer[]) => void) {
-    fetch("https://localhost/backend/players/")
+    fetch(BASE_URL)
       .then((response) => response.json())
       .then((players) => {
         setPlayers && setPlayers(players);
