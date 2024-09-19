@@ -1,12 +1,9 @@
 # Strafenkatalog
 - Digitalisierter Strafenkatalog
 - Architektur
-  - DB: H2 file-based 
-  - Backend: Java Spring / Spring Boot (maven)
+  - DB: Postgres
+  - Backend: PHP
   - Frontend: React
-- TODO Frontend
 
-- TODO Backend
-  - Routen für verschiedene Statistiken erstellen
-
-- TODO Deployment
+TODOs:
+- Deployment automatisieren
