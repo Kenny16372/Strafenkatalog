@@ -1,0 +1,9 @@
+[settings]
+; origin_frontend = "https://strafenkatalog.fcbischberg.de"
+origin_frontend = "http://localhost:5173"
+
+[database]
+host = "host"
+database = "db"
+username = "user"
+password = "pass"

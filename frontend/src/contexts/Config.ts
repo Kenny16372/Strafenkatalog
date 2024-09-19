@@ -1,1 +1,1 @@
-export const API_URL = "https://strafenkatalog.fcbischberg.de/backend/";
+export const API_URL = "http://localhost/backend/";
