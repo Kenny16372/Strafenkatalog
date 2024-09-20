@@ -5,7 +5,9 @@ import Navigation from "../Navigation/Navigation";
 function Layout() {
   return (
     <>
-      <Outlet />
+      <div className="overflow-auto">
+        <Outlet />
+      </div>
       <Navigation />
     </>
   );
